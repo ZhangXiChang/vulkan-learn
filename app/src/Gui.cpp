@@ -32,6 +32,12 @@ namespace vk
             ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;
         }
 
+        // 初始化SDL2模块用于Vulkan模块
+        if (!ImGui_ImplSDL2_InitForVulkan(window->GetWindow()))
+        {
+            throw std::runtime_error("Failed to initialize SDL2 module for Vulkan module!");
+        }
+
         // 使用Volk的Vulkan元加载
         if (!ImGui_ImplVulkan_LoadFunctions(
                 [](const char *function_name, void *vulkan_instance)
@@ -39,12 +45,6 @@ namespace vk
                 mDevice->GetInstance()))
         {
             throw std::runtime_error("ImGUI using Volk's Vulkan meta load failed!");
-        }
-
-        // 初始化SDL2模块用于Vulkan模块
-        if (!ImGui_ImplSDL2_InitForVulkan(window->GetWindow()))
-        {
-            throw std::runtime_error("Failed to initialize SDL2 module for Vulkan module!");
         }
 
         // 创建ImGui描述符池
