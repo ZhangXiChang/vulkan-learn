@@ -20,7 +20,7 @@ void App::Init()
     mWindow = vk::Window::MakePtr("VulkanEngine", 1600, 900, false, true);
     mDevice = vk::Device::MakePtr(mWindow);
     mRenderer = vk::Renderer::MakePtr(mDevice);
-    // mGui = vk::Gui::MakePtr(mDevice, mWindow);
+    mGui = vk::Gui::MakePtr(mDevice, mWindow);
 }
 void App::CreateDescriptorSetLayout()
 {
@@ -362,7 +362,7 @@ void App::loop()
         // 相机输入
         mCamera->InputTick();
         // GUI渲染
-        // vk::Gui::Render(mWindow, std::bind(&App::GuiDesign, this));
+        vk::Gui::Render(mWindow, std::bind(&App::GuiDesign, this));
         // 渲染
         mRenderer->Render(std::bind(&App::DrawOperations, this, std::placeholders::_1));
     }
@@ -377,7 +377,7 @@ void App::ProcessEvent()
     while (vk::Window::PollEvent(&Event))
     {
         // Gui事件
-        // vk::Gui::ProcessEvent(&Event);
+        vk::Gui::ProcessEvent(&Event);
         switch (Event.type)
         {
         case SDL_WINDOWEVENT: // 窗口事件
@@ -451,7 +451,7 @@ void App::DrawOperations(uint32_t currentIndex)
     }
 
     // ImGui绘制
-    // mRenderer->DrawGUI(mGui);
+    mRenderer->DrawGUI(mGui);
 
     // 更新点光源缓冲区
     for (size_t i = 0; i < mSpotLightBufferList3.size(); i++)
