@@ -9,12 +9,12 @@ namespace vk
     }
     Gui::~Gui()
     {
+        ImGui_ImplVulkan_Shutdown();
         // ImGui
         if (mImGuiDescriptorPool != nullptr)
         {
             vkDestroyDescriptorPool(mDevice->GetLogicalDevice(), mImGuiDescriptorPool, nullptr);
         }
-        ImGui_ImplVulkan_Shutdown();
         ImGui_ImplSDL2_Shutdown();
         ImGui::DestroyContext();
     }
@@ -59,6 +59,7 @@ namespace vk
         DescriptorPoolCreateInfo.poolSizeCount = ImGuiDescriptorPoolSizeList.size();
         DescriptorPoolCreateInfo.pPoolSizes = ImGuiDescriptorPoolSizeList.data();
         DescriptorPoolCreateInfo.maxSets = 100;
+        DescriptorPoolCreateInfo.flags = VK_DESCRIPTOR_POOL_CREATE_FREE_DESCRIPTOR_SET_BIT;
         if (vkCreateDescriptorPool(mDevice->GetLogicalDevice(), &DescriptorPoolCreateInfo, nullptr, &mImGuiDescriptorPool) != VK_SUCCESS)
         {
             throw std::runtime_error("Failed to create ImGui descriptor pool!");
@@ -95,9 +96,6 @@ namespace vk
         {
             throw std::runtime_error("Failed to end the command buffer used to load ImGui font texture!");
         }
-
-        // 清除CPU端ImGui字体纹理缓存
-        ImGui_ImplVulkan_DestroyFontsTexture();
     }
     void Gui::ProcessEvent(SDL_Event *event)
     {
