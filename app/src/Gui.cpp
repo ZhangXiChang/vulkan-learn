@@ -38,15 +38,6 @@ namespace vk
             throw std::runtime_error("Failed to initialize SDL2 module for Vulkan module!");
         }
 
-        // 使用Volk的Vulkan元加载
-        if (!ImGui_ImplVulkan_LoadFunctions(
-                [](const char *function_name, void *vulkan_instance)
-                { return vkGetInstanceProcAddr(*(reinterpret_cast<VkInstance *>(vulkan_instance)), function_name); },
-                mDevice->GetInstance()))
-        {
-            throw std::runtime_error("ImGUI using Volk's Vulkan meta load failed!");
-        }
-
         // 创建ImGui描述符池
         std::vector<VkDescriptorPoolSize> ImGuiDescriptorPoolSizeList =
             {

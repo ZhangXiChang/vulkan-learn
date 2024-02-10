@@ -7,9 +7,8 @@
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE
 #include <glm/gtc/matrix_transform.hpp> //矩阵变换
 
-#define IMGUI_IMPL_VULKAN_NO_PROTOTYPES
 #include <imgui_impl_sdl2.h>
-#include <imgui_impl_vulkan.h>
+#include "imgui_impl_vulkan.h"
 
 #define STB_IMAGE_STATIC
 #define STB_IMAGE_IMPLEMENTATION
