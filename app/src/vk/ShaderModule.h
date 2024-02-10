@@ -11,7 +11,7 @@ namespace vk
         ~ShaderModule();
 
         using Ptr = std::shared_ptr<ShaderModule>;
-        static Ptr MakePtr(Device::Ptr device, VkShaderStageFlagBits shaderStage, std::string shaderFilePath)
+        static Ptr New(Device::Ptr device, VkShaderStageFlagBits shaderStage, std::string shaderFilePath)
         {
             return std::make_shared<ShaderModule>(device, shaderStage, shaderFilePath);
         }

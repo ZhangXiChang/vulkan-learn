@@ -118,7 +118,7 @@ namespace vk
     {
         // 写入CPU内存
         uint64_t BufferSize = mWidth * mHeight * 4;
-        Buffer::Ptr TempBuffer = Buffer::MakePtr(mDevice, BufferSize,
+        Buffer::Ptr TempBuffer = Buffer::New(mDevice, BufferSize,
                                                  VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
                                                  VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
         //

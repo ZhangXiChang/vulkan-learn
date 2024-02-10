@@ -10,7 +10,7 @@ namespace vk
         ~Window();
 
         using Ptr = std::shared_ptr<Window>;
-        static Ptr MakePtr(std::string title, uint32_t width, uint32_t height, bool isFullScreen, bool isHideMouse)
+        static Ptr New(std::string title, uint32_t width, uint32_t height, bool isFullScreen, bool isHideMouse)
         {
             return std::make_shared<Window>(title, width, height, isFullScreen, isHideMouse);
         }

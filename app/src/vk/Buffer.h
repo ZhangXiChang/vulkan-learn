@@ -4,6 +4,10 @@
 
 namespace vk
 {
+    /**
+     * @brief 缓冲区
+     * 用于创建缓冲区
+     */
     class Buffer
     {
     public:
@@ -11,7 +15,7 @@ namespace vk
         ~Buffer();
 
         using Ptr = std::shared_ptr<Buffer>;
-        static Ptr MakePtr(Device::Ptr device, size_t bufferSize, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties)
+        static Ptr New(Device::Ptr device, size_t bufferSize, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties)
         {
             return std::make_shared<Buffer>(device, bufferSize, usage, properties);
         }

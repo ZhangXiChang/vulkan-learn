@@ -13,7 +13,7 @@ namespace vk
         ~ShaderImage();
 
         using Ptr = std::shared_ptr<ShaderImage>;
-        static Ptr MakePtr(Device::Ptr device, uint32_t width, uint32_t height, bool isWritePerFrame)
+        static Ptr New(Device::Ptr device, uint32_t width, uint32_t height, bool isWritePerFrame)
         {
             return std::make_shared<ShaderImage>(device, width, height, isWritePerFrame);
         }

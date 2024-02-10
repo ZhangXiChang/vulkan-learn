@@ -24,7 +24,7 @@ namespace vk
             mShaderImage.resize(mDevice->GetSwapchainImageCount());
             for (auto &&i : mShaderImage)
             {
-                i = Image::MakePtr(mDevice, width, height,
+                i = Image::New(mDevice, width, height,
                                    VK_IMAGE_USAGE_TRANSFER_SRC_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT,
                                    VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
                 //
@@ -33,7 +33,7 @@ namespace vk
         else
         {
             mShaderImage.resize(1);
-            mShaderImage[0] = Image::MakePtr(mDevice, width, height,
+            mShaderImage[0] = Image::New(mDevice, width, height,
                                              VK_IMAGE_USAGE_TRANSFER_SRC_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT,
                                              VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
             //

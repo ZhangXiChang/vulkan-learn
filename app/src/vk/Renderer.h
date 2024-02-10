@@ -15,7 +15,7 @@ namespace vk
         ~Renderer();
 
         using Ptr = std::shared_ptr<Renderer>;
-        static Ptr MakePtr(Device::Ptr device) { return std::make_shared<Renderer>(device); }
+        static Ptr New(Device::Ptr device) { return std::make_shared<Renderer>(device); }
 
     private:
         Device::Ptr mDevice;

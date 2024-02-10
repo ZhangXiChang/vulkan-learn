@@ -11,7 +11,7 @@ namespace vk
         ~Gui();
 
         using Ptr = std::shared_ptr<Gui>;
-        static Ptr MakePtr(Device::Ptr device, Window::Ptr window) { return std::make_shared<Gui>(device, window); }
+        static Ptr New(Device::Ptr device, Window::Ptr window) { return std::make_shared<Gui>(device, window); }
 
         static void ProcessEvent(SDL_Event *event);
         static void Render(Window::Ptr window, std::function<void()> callback);

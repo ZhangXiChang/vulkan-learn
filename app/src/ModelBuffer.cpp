@@ -14,13 +14,13 @@ namespace vk
     void ModelBuffer::CreateModel(void *vertexData, uint64_t vertexDataSize, void *indexData, uint64_t indexDataSize)
     {
         // 创建顶点缓冲区
-        mVertexBuffer = Buffer::MakePtr(mDevice, vertexDataSize,
+        mVertexBuffer = Buffer::New(mDevice, vertexDataSize,
                                         VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT,
                                         VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
         //
         mVertexBuffer->WriteData(vertexData);
         // 创建索引缓冲区
-        mVertexIndexBuffer = Buffer::MakePtr(mDevice, indexDataSize,
+        mVertexIndexBuffer = Buffer::New(mDevice, indexDataSize,
                                              VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_INDEX_BUFFER_BIT,
                                              VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
         //

@@ -37,7 +37,7 @@ namespace vk
         ~ModelBuffer();
 
         using Ptr = std::shared_ptr<ModelBuffer>;
-        static Ptr MakePtr(Device::Ptr device, void *vertexData, uint64_t vertexDataSize, void *indexData, uint64_t indexDataSize, uint32_t vertexIndexCount)
+        static Ptr New(Device::Ptr device, void *vertexData, uint64_t vertexDataSize, void *indexData, uint64_t indexDataSize, uint32_t vertexIndexCount)
         {
             return std::make_shared<ModelBuffer>(device, vertexData, vertexDataSize, indexData, indexDataSize, vertexIndexCount);
         }

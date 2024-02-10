@@ -43,7 +43,7 @@ namespace vk
     }
     bool Buffer::WriteData(void *data)
     {
-        Buffer::Ptr TempBuffer = Buffer::MakePtr(mDevice, mBufferSize,
+        Buffer::Ptr TempBuffer = Buffer::New(mDevice, mBufferSize,
                                                  VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
                                                  VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
         //

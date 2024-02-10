@@ -17,10 +17,10 @@ void App::Init()
 {
     vk::Window::Init();
     SDL_Rect Rect = vk::Window::GetDisplayBound(0);
-    mWindow = vk::Window::MakePtr("VulkanEngine", 1600, 900, false, true);
-    mDevice = vk::Device::MakePtr(mWindow);
-    mRenderer = vk::Renderer::MakePtr(mDevice);
-    mGui = vk::Gui::MakePtr(mDevice, mWindow);
+    mWindow = vk::Window::New("VulkanEngine", 1600, 900, false, true);
+    mDevice = vk::Device::New(mWindow);
+    mRenderer = vk::Renderer::New(mDevice);
+    mGui = vk::Gui::New(mDevice, mWindow);
 }
 void App::CreateDescriptorSetLayout()
 {
@@ -57,7 +57,7 @@ void App::CreateDescriptorSetLayout()
         TextureDescriptorSetLayoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
         TextureDescriptorSetLayoutBinding.stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT;
         // 创建描述符布局
-        mDescriptorSetLayout = vk::DescriptorSetLayout::MakePtr(mDevice, 100,
+        mDescriptorSetLayout = vk::DescriptorSetLayout::New(mDevice, 100,
                                                                 {
                                                                     CameraSpaceDescriptorSetLayoutBinding,
                                                                     IlluminationDescriptorSetLayoutBinding,
@@ -73,8 +73,8 @@ void App::CreatePipeline()
 {
     // 创建模型渲染管线
     {
-        vk::ShaderModule::Ptr ModelVertexModule = vk::ShaderModule::MakePtr(mDevice, VK_SHADER_STAGE_VERTEX_BIT, "./assets/shaders/model.vert.spv");
-        vk::ShaderModule::Ptr ModelFragmentModule = vk::ShaderModule::MakePtr(mDevice, VK_SHADER_STAGE_FRAGMENT_BIT, "./assets/shaders/model.frag.spv");
+        vk::ShaderModule::Ptr ModelVertexModule = vk::ShaderModule::New(mDevice, VK_SHADER_STAGE_VERTEX_BIT, "./assets/shaders/model.vert.spv");
+        vk::ShaderModule::Ptr ModelFragmentModule = vk::ShaderModule::New(mDevice, VK_SHADER_STAGE_FRAGMENT_BIT, "./assets/shaders/model.frag.spv");
 
         VkVertexInputBindingDescription VertexInputBindingDescription{};
         VertexInputBindingDescription.binding = 0;
@@ -111,12 +111,12 @@ void App::CreatePipeline()
             ColorAttributeDescription,
             TexCoordAttributeDescription,
         };
-        mModelPipeline = vk::Pipeline::MakePtr(mDevice, mDescriptorSetLayout, ModelPipelineInfo);
+        mModelPipeline = vk::Pipeline::New(mDevice, mDescriptorSetLayout, ModelPipelineInfo);
     }
     // 创建广告牌渲染管线
     {
-        vk::ShaderModule::Ptr ModelVertexModule = vk::ShaderModule::MakePtr(mDevice, VK_SHADER_STAGE_VERTEX_BIT, "./assets/shaders/billboard.vert.spv");
-        vk::ShaderModule::Ptr ModelFragmentModule = vk::ShaderModule::MakePtr(mDevice, VK_SHADER_STAGE_FRAGMENT_BIT, "./assets/shaders/billboard.frag.spv");
+        vk::ShaderModule::Ptr ModelVertexModule = vk::ShaderModule::New(mDevice, VK_SHADER_STAGE_VERTEX_BIT, "./assets/shaders/billboard.vert.spv");
+        vk::ShaderModule::Ptr ModelFragmentModule = vk::ShaderModule::New(mDevice, VK_SHADER_STAGE_FRAGMENT_BIT, "./assets/shaders/billboard.frag.spv");
 
         VkVertexInputBindingDescription VertexInputBindingDescription{};
         VertexInputBindingDescription.binding = 0;
@@ -135,13 +135,13 @@ void App::CreatePipeline()
         ModelPipelineInfo.VertexInputAttributeDescriptionList = {
             PositionAttributeDescription,
         };
-        mBillboardPipeline = vk::Pipeline::MakePtr(mDevice, mDescriptorSetLayout, ModelPipelineInfo);
+        mBillboardPipeline = vk::Pipeline::New(mDevice, mDescriptorSetLayout, ModelPipelineInfo);
     }
 }
 void App::CreateCamera()
 {
     // 创建相机
-    mCamera = vk::Camera::MakePtr(mDevice, 0.0f, -20.0f, 0.0f, -4.0f, 2.5f, 50.0f, 0.01f, 1000.0f);
+    mCamera = vk::Camera::New(mDevice, 0.0f, -20.0f, 0.0f, -4.0f, 2.5f, 50.0f, 0.01f, 1000.0f);
 }
 void App::CreateModelBuffer()
 {
@@ -164,19 +164,19 @@ void App::CreateModelBuffer()
         // 创建模型缓冲区
         uint64_t VertexDataSize = modelInfoList[0].Vertex.size() * sizeof(modelInfoList[0].Vertex[0]);
         uint64_t IndexDataSize = modelInfoList[0].VertexIndex.size() * sizeof(modelInfoList[0].VertexIndex[0]);
-        mModelBuffer1 = vk::ModelBuffer::MakePtr(mDevice, modelInfoList[0].Vertex.data(), VertexDataSize,
+        mModelBuffer1 = vk::ModelBuffer::New(mDevice, modelInfoList[0].Vertex.data(), VertexDataSize,
                                                  modelInfoList[0].VertexIndex.data(), IndexDataSize, modelInfoList[0].VertexIndex.size());
         //
         // 创建描述符
-        mDescriptorSet1 = vk::DescriptorSet::MakePtr(mDevice, mDescriptorSetLayout);
+        mDescriptorSet1 = vk::DescriptorSet::New(mDevice, mDescriptorSetLayout);
         // 纹理
         vk::Image::ImageInfo TextureInfo = vk::Image::OpenImageFile("./assets/images/pingmian.png");
-        mTextureBuffer1 = vk::ShaderImage::MakePtr(mDevice, TextureInfo.Width, TextureInfo.Height, false);
+        mTextureBuffer1 = vk::ShaderImage::New(mDevice, TextureInfo.Width, TextureInfo.Height, false);
         mTextureBuffer1->AllWriteData(TextureInfo.Data);
         mTextureBuffer1->WriteDescriptorSet({mDescriptorSet1}, 0);
         TextureInfo.Free();
         // 变换矩阵
-        mModelSpaceBuffer1 = vk::ShaderBuffer::MakePtr(mDevice, sizeof(ModelSpaceLayout), true);
+        mModelSpaceBuffer1 = vk::ShaderBuffer::New(mDevice, sizeof(ModelSpaceLayout), true);
         mModelSpaceBuffer1->WriteDescriptorSet({mDescriptorSet1}, 12);
         ModelSpaceLayout ModelSpace{};
         ModelSpace.ModelMat = glm::mat4(1.0f);
@@ -213,11 +213,11 @@ void App::CreateModelBuffer()
             // 创建模型缓冲区
             uint64_t VertexDataSize = modelInfoList[i].Vertex.size() * sizeof(modelInfoList[i].Vertex[i]);
             uint64_t IndexDataSize = modelInfoList[i].VertexIndex.size() * sizeof(modelInfoList[i].VertexIndex[i]);
-            mModelBufferList2[i] = vk::ModelBuffer::MakePtr(mDevice, modelInfoList[i].Vertex.data(), VertexDataSize,
+            mModelBufferList2[i] = vk::ModelBuffer::New(mDevice, modelInfoList[i].Vertex.data(), VertexDataSize,
                                                             modelInfoList[i].VertexIndex.data(), IndexDataSize, modelInfoList[i].VertexIndex.size());
             //
             // 创建描述符
-            mDescriptorSetList2[i] = vk::DescriptorSet::MakePtr(mDevice, mDescriptorSetLayout);
+            mDescriptorSetList2[i] = vk::DescriptorSet::New(mDevice, mDescriptorSetLayout);
             // 创建纹理
             bool IsHave = false;
             for (size_t j = 0; j < TextureFileList.size(); j++)
@@ -225,7 +225,7 @@ void App::CreateModelBuffer()
                 vk::Image::ImageInfo TextureInfo = vk::Image::OpenImageFile(TextureFileList[j]);
                 if (TextureInfo.Name == modelInfoList[i].ModelName)
                 {
-                    mTextureBufferList2[i] = vk::ShaderImage::MakePtr(mDevice, TextureInfo.Width, TextureInfo.Height, false);
+                    mTextureBufferList2[i] = vk::ShaderImage::New(mDevice, TextureInfo.Width, TextureInfo.Height, false);
                     mTextureBufferList2[i]->AllWriteData(TextureInfo.Data);
                     mTextureBufferList2[i]->WriteDescriptorSet({mDescriptorSetList2[i]}, 0);
                     TextureInfo.Free();
@@ -235,14 +235,14 @@ void App::CreateModelBuffer()
             if (!IsHave)
             {
                 vk::Image::ImageInfo TextureInfo = vk::Image::OpenImageFile("./assets/images/pingmian.png");
-                mTextureBufferList2[i] = vk::ShaderImage::MakePtr(mDevice, TextureInfo.Width, TextureInfo.Height, false);
+                mTextureBufferList2[i] = vk::ShaderImage::New(mDevice, TextureInfo.Width, TextureInfo.Height, false);
                 mTextureBufferList2[i]->AllWriteData(TextureInfo.Data);
                 mTextureBufferList2[i]->WriteDescriptorSet({mDescriptorSetList2[i]}, 0);
                 TextureInfo.Free();
             }
         }
         // 变换矩阵
-        mModelSpaceBuffer2 = vk::ShaderBuffer::MakePtr(mDevice, sizeof(ModelSpaceLayout), true);
+        mModelSpaceBuffer2 = vk::ShaderBuffer::New(mDevice, sizeof(ModelSpaceLayout), true);
         mModelSpaceBuffer2->WriteDescriptorSet(mDescriptorSetList2, 12);
         ModelSpaceLayout ModelSpace{};
         ModelSpace.ModelMat = glm::mat4(1.0f);
@@ -262,7 +262,7 @@ void App::CreateModelBuffer()
         // 创建模型缓冲区
         uint64_t VertexDataSize = BillboardModelInfo.Vertex.size() * sizeof(BillboardModelInfo.Vertex[0]);
         uint64_t IndexDataSize = BillboardModelInfo.VertexIndex.size() * sizeof(BillboardModelInfo.VertexIndex[0]);
-        mModelBuffer3 = vk::ModelBuffer::MakePtr(mDevice, BillboardModelInfo.Vertex.data(), VertexDataSize,
+        mModelBuffer3 = vk::ModelBuffer::New(mDevice, BillboardModelInfo.Vertex.data(), VertexDataSize,
                                                  BillboardModelInfo.VertexIndex.data(), IndexDataSize, BillboardModelInfo.VertexIndex.size());
         //
         std::vector<glm::vec4> SpotLightColorList{
@@ -287,9 +287,9 @@ void App::CreateModelBuffer()
         for (size_t i = 0; i < mSpotLightList.size(); i++)
         {
             // 描述符
-            mDescriptorSetList3[i] = vk::DescriptorSet::MakePtr(mDevice, mDescriptorSetLayout);
+            mDescriptorSetList3[i] = vk::DescriptorSet::New(mDevice, mDescriptorSetLayout);
             // 着色器缓冲区
-            mSpotLightBufferList3[i] = vk::ShaderBuffer::MakePtr(mDevice, sizeof(SpotLightLayout), true);
+            mSpotLightBufferList3[i] = vk::ShaderBuffer::New(mDevice, sizeof(SpotLightLayout), true);
             mSpotLightBufferList3[i]->WriteDescriptorSet({mDescriptorSetList3[i]}, 13);
             mSpotLightBufferList3[i]->AllWriteData(&mSpotLightList[i]);
         }
@@ -298,8 +298,8 @@ void App::CreateModelBuffer()
 void App::CreateShaderBuffer()
 {
     // 创建着色器缓冲区
-    mCameraSpaceBuffer = vk::ShaderBuffer::MakePtr(mDevice, sizeof(CameraSpaceLayout), true);
-    mIlluminationBuffer = vk::ShaderBuffer::MakePtr(mDevice, sizeof(IlluminationLayout), true);
+    mCameraSpaceBuffer = vk::ShaderBuffer::New(mDevice, sizeof(CameraSpaceLayout), true);
+    mIlluminationBuffer = vk::ShaderBuffer::New(mDevice, sizeof(IlluminationLayout), true);
 
     mCameraSpaceBuffer->WriteDescriptorSet({mDescriptorSet1}, 10);
     mCameraSpaceBuffer->WriteDescriptorSet(mDescriptorSetList2, 10);
@@ -345,7 +345,7 @@ void App::CalculateFrameRate()
     }
     mFrameCount++;
 }
-void App::loop()
+void App::run()
 {
     // 窗口循环
     while (!mIsWindowClose)

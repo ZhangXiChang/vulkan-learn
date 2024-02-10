@@ -12,7 +12,7 @@ namespace vk
         ~Camera();
 
         using Ptr = std::shared_ptr<Camera>;
-        static Ptr MakePtr(Device::Ptr device, float yaw, float pitch, float x, float y, float z, float focalLength, float proximalPoint, float farPoint)
+        static Ptr New(Device::Ptr device, float yaw, float pitch, float x, float y, float z, float focalLength, float proximalPoint, float farPoint)
         {
             return std::make_shared<Camera>(device, yaw, pitch, x, y, z, focalLength, proximalPoint, farPoint);
         }

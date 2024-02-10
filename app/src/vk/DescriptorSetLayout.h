@@ -12,7 +12,7 @@ namespace vk
         ~DescriptorSetLayout();
 
         using Ptr = std::shared_ptr<DescriptorSetLayout>;
-        static Ptr MakePtr(Device::Ptr device, uint32_t descriptorSetCount, std::vector<VkDescriptorSetLayoutBinding> descriptorSetLayoutBindingList,
+        static Ptr New(Device::Ptr device, uint32_t descriptorSetCount, std::vector<VkDescriptorSetLayoutBinding> descriptorSetLayoutBindingList,
                            VkPushConstantRange *pushConstantRange)
         {
             return std::make_shared<DescriptorSetLayout>(device, descriptorSetCount, descriptorSetLayoutBindingList, pushConstantRange);

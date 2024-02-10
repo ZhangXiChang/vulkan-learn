@@ -21,7 +21,7 @@ namespace vk
         ~Pipeline();
 
         using Ptr = std::shared_ptr<Pipeline>;
-        static Ptr MakePtr(Device::Ptr device, DescriptorSetLayout::Ptr descriptorSet, PipelineInfo info) { return std::make_shared<Pipeline>(device, descriptorSet, info); }
+        static Ptr New(Device::Ptr device, DescriptorSetLayout::Ptr descriptorSet, PipelineInfo info) { return std::make_shared<Pipeline>(device, descriptorSet, info); }
 
     private:
         Device::Ptr mDevice;

@@ -22,7 +22,7 @@ namespace vk
         ~Image();
 
         using Ptr = std::shared_ptr<Image>;
-        static Ptr MakePtr(Device::Ptr device, uint32_t width, uint32_t height, VkImageUsageFlags usage, VkMemoryPropertyFlags properties)
+        static Ptr New(Device::Ptr device, uint32_t width, uint32_t height, VkImageUsageFlags usage, VkMemoryPropertyFlags properties)
         {
             return std::make_shared<Image>(device, width, height, usage, properties);
         }

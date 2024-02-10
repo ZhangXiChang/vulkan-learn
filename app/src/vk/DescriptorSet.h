@@ -12,7 +12,7 @@ namespace vk
         ~DescriptorSet();
 
         using Ptr = std::shared_ptr<DescriptorSet>;
-        static Ptr MakePtr(Device::Ptr device, DescriptorSetLayout::Ptr descriptorSetLayout) { return std::make_shared<DescriptorSet>(device, descriptorSetLayout); }
+        static Ptr New(Device::Ptr device, DescriptorSetLayout::Ptr descriptorSetLayout) { return std::make_shared<DescriptorSet>(device, descriptorSetLayout); }
 
     private:
         Device::Ptr mDevice;

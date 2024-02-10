@@ -11,7 +11,7 @@ namespace vk
         ~Device();
 
         using Ptr = std::shared_ptr<Device>;
-        static Ptr MakePtr(Window::Ptr window) { return std::make_shared<Device>(window); }
+        static Ptr New(Window::Ptr window) { return std::make_shared<Device>(window); }
 
     private:
         // Vulkan实例

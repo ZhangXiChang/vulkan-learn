@@ -13,7 +13,7 @@ namespace vk
         ~ShaderBuffer();
 
         using Ptr = std::shared_ptr<ShaderBuffer>;
-        static Ptr MakePtr(Device::Ptr device, size_t bufferSize, bool isWritePerFrame) { return std::make_shared<ShaderBuffer>(device, bufferSize, isWritePerFrame); }
+        static Ptr New(Device::Ptr device, size_t bufferSize, bool isWritePerFrame) { return std::make_shared<ShaderBuffer>(device, bufferSize, isWritePerFrame); }
 
     private:
         Device::Ptr mDevice;

@@ -129,5 +129,5 @@ private:
     vk::ModelBuffer::ModelInfo<Vertex> ProcessMesh(aiMesh *mesh);
 
 public:
-    void loop();
+    void run();
 };
